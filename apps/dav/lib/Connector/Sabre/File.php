@@ -202,9 +202,9 @@ class File extends Node implements IFile {
 				});
 
 				$result = true;
-				$count = -1;
+				$writtenByteCount = -1;
 				try {
-					$count = $partStorage->writeStream($internalPartPath, $wrappedData);
+					$writtenByteCount = $partStorage->writeStream($internalPartPath, $wrappedData);
 				} catch (GenericFileException $e) {
 					$result = false;
 				}
@@ -223,7 +223,7 @@ class File extends Node implements IFile {
 					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 					throw new Exception('Could not write file contents');
 				}
-				[$count, $result] = \OC_Helper::streamCopy($data, $target);
+				[$writtenByteCount, $result] = \OC_Helper::streamCopy($data, $target);
 				fclose($target);
 			}
 
@@ -233,7 +233,7 @@ class File extends Node implements IFile {
 					$expected = $_SERVER['CONTENT_LENGTH'];
 				}
 				if ($expected !== "0") {
-					throw new Exception('Error while copying file to target location (copied bytes: ' . $count . ', expected filesize: ' . $expected . ' )');
+					throw new Exception('Error while copying file to target location (copied bytes: ' . $writtenByteCount . ', expected filesize: ' . $expected . ' )');
 				}
 			}
 
@@ -242,8 +242,8 @@ class File extends Node implements IFile {
 			// compare expected and actual size
 			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
 				$expected = (int)$_SERVER['CONTENT_LENGTH'];
-				if ($count !== $expected) {
-					throw new BadRequest('Expected filesize of ' . $expected . ' bytes but read (from Nextcloud client) and wrote (to Nextcloud storage) ' . $count . ' bytes. Could either be a network problem on the sending side or a problem writing to the storage on the server side.');
+				if ($writtenByteCount !== $expected) {
+					throw new BadRequest('Expected filesize of ' . $expected . ' bytes but read (from Nextcloud client) and wrote (to Nextcloud storage) ' . $writtenByteCount . ' bytes. Could either be a network problem on the sending side or a problem writing to the storage on the server side.');
 				}
 			}
 		} catch (\Exception $e) {
@@ -307,7 +307,7 @@ class File extends Node implements IFile {
 			}
 
 			// since we skipped the view we need to scan and emit the hooks ourselves
-			$storage->getUpdater()->update($internalPath, null, ($count-$previousFileSize));
+			$storage->getUpdater()->update($internalPath, null, ($writtenByteCount - $previousFileSize));
 
 			try {
 				$this->changeLock(ILockingProvider::LOCK_SHARED);
