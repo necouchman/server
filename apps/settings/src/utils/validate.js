@@ -64,5 +64,5 @@ export function validateEmail(input) {
  */
 export function validateLanguage(input) {
 	return input.code !== ''
-		&& input.name
+		&& Boolean(input.name)
 }
