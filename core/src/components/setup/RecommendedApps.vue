@@ -81,12 +81,15 @@ const recommended = {
 	},
 	spreed: {
 		description: t('core', 'Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps.'),
+    icon: imagePath('core', 'apps/speedapp.svg')
 	},
 	richdocuments: {
 		description: t('core', 'Collaboratively edit office documents.'),
+    icon: imagePath('core', 'apps/richdocumentapp.svg')
 	},
 	richdocumentscode: {
 		description: t('core', 'Local document editing back-end used by the Collabora Online app.'),
+    icon: imagePath('core', 'apps/richdocumentcodeapp.svg')
 	},
 }
 const recommendedIds = Object.keys(recommended)
@@ -148,9 +151,10 @@ export default {
 			logger.debug(`installing ${installing.length} recommended apps`)
 			Promise.all(installing)
 				.then(() => {
+          console.log('----------')
 					logger.info('all recommended apps installed, redirecting …')
 
-					window.location = defaultPageUrl
+					// window.location = defaultPageUrl
 				})
 				.catch(error => logger.error('could not install recommended apps', { error }))
 		},
