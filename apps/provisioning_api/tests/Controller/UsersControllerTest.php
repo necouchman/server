@@ -998,6 +998,10 @@ class UsersControllerTest extends TestCase {
 			IAccountManager::PROPERTY_PHONE => ['value' => 'phone'],
 			IAccountManager::PROPERTY_TWITTER => ['value' => 'twitter'],
 			IAccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
+			IAccountManager::PROPERTY_COMPANY => ['value' => 'company'],
+			IAccountManager::PROPERTY_JOB_TITLE => ['value' => 'job_title'],
+			IAccountManager::PROPERTY_HEADLINE => ['value' => 'headline'],
+			IAccountManager::PROPERTY_BIOGRAPHY => ['value' => 'biography'],
 		]);
 		$this->config
 			->expects($this->at(0))
@@ -1067,6 +1071,11 @@ class UsersControllerTest extends TestCase {
 				'setPassword' => true,
 			],
 			'additional_mail' => [],
+			'company' => 'company',
+			'job_title' => 'job_title',
+			'headline' => 'headline',
+			'biography' => 'biography',
+			'profile_enabled' => '1',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1165,6 +1174,10 @@ class UsersControllerTest extends TestCase {
 			IAccountManager::PROPERTY_PHONE => ['value' => 'phone'],
 			IAccountManager::PROPERTY_TWITTER => ['value' => 'twitter'],
 			IAccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
+			IAccountManager::PROPERTY_COMPANY => ['value' => 'company'],
+			IAccountManager::PROPERTY_JOB_TITLE => ['value' => 'job_title'],
+			IAccountManager::PROPERTY_HEADLINE => ['value' => 'headline'],
+			IAccountManager::PROPERTY_BIOGRAPHY => ['value' => 'biography'],
 		]);
 
 		$this->l10nFactory
@@ -1195,6 +1208,11 @@ class UsersControllerTest extends TestCase {
 				'setPassword' => true,
 			],
 			'additional_mail' => [],
+			'company' => 'company',
+			'job_title' => 'job_title',
+			'headline' => 'headline',
+			'biography' => 'biography',
+			'profile_enabled' => '1',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1332,6 +1350,10 @@ class UsersControllerTest extends TestCase {
 			IAccountManager::PROPERTY_PHONE => ['value' => 'phone'],
 			IAccountManager::PROPERTY_TWITTER => ['value' => 'twitter'],
 			IAccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
+			IAccountManager::PROPERTY_COMPANY => ['value' => 'company'],
+			IAccountManager::PROPERTY_JOB_TITLE => ['value' => 'job_title'],
+			IAccountManager::PROPERTY_HEADLINE => ['value' => 'headline'],
+			IAccountManager::PROPERTY_BIOGRAPHY => ['value' => 'biography'],
 		]);
 
 		$this->l10nFactory
@@ -1361,6 +1383,11 @@ class UsersControllerTest extends TestCase {
 				'setPassword' => false,
 			],
 			'additional_mail' => [],
+			'company' => 'company',
+			'job_title' => 'job_title',
+			'headline' => 'headline',
+			'biography' => 'biography',
+			'profile_enabled' => '1',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -3875,6 +3902,11 @@ class UsersControllerTest extends TestCase {
 				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
 				IAccountManager::PROPERTY_TWITTER,
+				IAccountManager::PROPERTY_COMPANY,
+				IAccountManager::PROPERTY_JOB_TITLE,
+				IAccountManager::PROPERTY_HEADLINE,
+				IAccountManager::PROPERTY_BIOGRAPHY,
+				IAccountManager::PROPERTY_PROFILE_ENABLED,
 			]],
 			[true, ISetDisplayNameBackend::class, [
 				IAccountManager::PROPERTY_DISPLAYNAME,
@@ -3884,6 +3916,11 @@ class UsersControllerTest extends TestCase {
 				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
 				IAccountManager::PROPERTY_TWITTER,
+				IAccountManager::PROPERTY_COMPANY,
+				IAccountManager::PROPERTY_JOB_TITLE,
+				IAccountManager::PROPERTY_HEADLINE,
+				IAccountManager::PROPERTY_BIOGRAPHY,
+				IAccountManager::PROPERTY_PROFILE_ENABLED,
 			]],
 			[true, UserInterface::class, [
 				IAccountManager::PROPERTY_EMAIL,
@@ -3892,6 +3929,11 @@ class UsersControllerTest extends TestCase {
 				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
 				IAccountManager::PROPERTY_TWITTER,
+				IAccountManager::PROPERTY_COMPANY,
+				IAccountManager::PROPERTY_JOB_TITLE,
+				IAccountManager::PROPERTY_HEADLINE,
+				IAccountManager::PROPERTY_BIOGRAPHY,
+				IAccountManager::PROPERTY_PROFILE_ENABLED,
 			]],
 		];
 	}

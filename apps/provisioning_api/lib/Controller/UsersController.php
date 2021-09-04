@@ -594,6 +594,11 @@ class UsersController extends AUserData {
 		$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 		$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
 		$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
+		$permittedFields[] = IAccountManager::PROPERTY_COMPANY;
+		$permittedFields[] = IAccountManager::PROPERTY_JOB_TITLE;
+		$permittedFields[] = IAccountManager::PROPERTY_HEADLINE;
+		$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY;
+		$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
 
 		return new DataResponse($permittedFields);
 	}
@@ -693,11 +698,11 @@ class UsersController extends AUserData {
 	 *
 	 * @param string $userId
 	 * @param string $key
-	 * @param string $value
+	 * @param string|bool $value
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function editUser(string $userId, string $key, string $value): DataResponse {
+	public function editUser(string $userId, string $key, string|bool $value): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$targetUser = $this->userManager->get($userId);
@@ -737,6 +742,11 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
 			$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
+			$permittedFields[] = IAccountManager::PROPERTY_COMPANY;
+			$permittedFields[] = IAccountManager::PROPERTY_JOB_TITLE;
+			$permittedFields[] = IAccountManager::PROPERTY_HEADLINE;
+			$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY;
+			$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
 			$permittedFields[] = IAccountManager::PROPERTY_PHONE . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX;
@@ -768,6 +778,11 @@ class UsersController extends AUserData {
 				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 				$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
 				$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
+				$permittedFields[] = IAccountManager::PROPERTY_COMPANY;
+				$permittedFields[] = IAccountManager::PROPERTY_JOB_TITLE;
+				$permittedFields[] = IAccountManager::PROPERTY_HEADLINE;
+				$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY;
+				$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
 				$permittedFields[] = 'quota';
 			} else {
 				// No rights
@@ -863,6 +878,10 @@ class UsersController extends AUserData {
 			case IAccountManager::PROPERTY_ADDRESS:
 			case IAccountManager::PROPERTY_WEBSITE:
 			case IAccountManager::PROPERTY_TWITTER:
+			case IAccountManager::PROPERTY_COMPANY:
+			case IAccountManager::PROPERTY_JOB_TITLE:
+			case IAccountManager::PROPERTY_HEADLINE:
+			case IAccountManager::PROPERTY_BIOGRAPHY:
 				$userAccount = $this->accountManager->getAccount($targetUser);
 				try {
 					$userProperty = $userAccount->getProperty($key);
@@ -878,6 +897,23 @@ class UsersController extends AUserData {
 					}
 				} catch (PropertyDoesNotExistException $e) {
 					$userAccount->setProperty($key, $value, IAccountManager::SCOPE_PRIVATE, IAccountManager::NOT_VERIFIED);
+				}
+				$this->accountManager->updateAccount($userAccount);
+				break;
+			case IAccountManager::PROPERTY_PROFILE_ENABLED:
+				if (!is_bool($value)) {
+					throw new OCSException('Invalid value, value must be a boolean', 102);
+				}
+				$value = $value === true ? '1' : '0';
+
+				$userAccount = $this->accountManager->getAccount($targetUser);
+				try {
+					$userProperty = $userAccount->getProperty($key);
+					if ($userProperty->getValue() !== $value) {
+						$userProperty->setValue($value);
+					}
+				} catch (PropertyDoesNotExistException $e) {
+					$userAccount->setProperty($key, $value, IAccountManager::SCOPE_LOCAL, IAccountManager::NOT_VERIFIED);
 				}
 				$this->accountManager->updateAccount($userAccount);
 				break;

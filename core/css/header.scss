@@ -83,8 +83,6 @@
 
 #header {
 	/* Header menu */
-	$header-menu-entry-height: 44px;
-
 	.header-left > nav > .menu,
 	.header-right > div > .menu {
 		background-color: var(--color-main-background);
@@ -131,7 +129,7 @@
 				a {
 					display: inline-flex;
 					align-items: center;
-					height: $header-menu-entry-height;
+					height: var(--header-menu-item-height);
 					color: var(--color-main-text);
 					padding: 10px 12px;
 					box-sizing: border-box;

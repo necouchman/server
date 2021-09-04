@@ -574,6 +574,34 @@ class AccountManager implements IAccountManager {
 				'verified' => self::NOT_VERIFIED,
 			],
 
+			[
+				'name' => self::PROPERTY_COMPANY,
+				'value' => '',
+				'scope' => self::SCOPE_LOCAL,
+			],
+
+			[
+				'name' => self::PROPERTY_JOB_TITLE,
+				'value' => '',
+				'scope' => self::SCOPE_LOCAL,
+			],
+
+			[
+				'name' => self::PROPERTY_HEADLINE,
+				'value' => '',
+				'scope' => self::SCOPE_LOCAL,
+			],
+
+			[
+				'name' => self::PROPERTY_BIOGRAPHY,
+				'value' => '',
+				'scope' => self::SCOPE_LOCAL,
+			],
+
+			[
+				'name' => self::PROPERTY_PROFILE_ENABLED,
+				'value' => '1',
+			],
 		];
 	}
 
