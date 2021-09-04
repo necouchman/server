@@ -236,6 +236,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * Create a folder
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
 	public function mkdir($path) {
 		$path = $this->normalizePath($path);
 
@@ -261,11 +267,23 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return true;
 	}
 
+	/**
+	 * Check if the specified path exists.
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
 	public function file_exists($path) {
 		return $this->filetype($path) !== false;
 	}
 
-
+	/**
+	 * Remove the directory specified in the
+	 * path argument.
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
 	public function rmdir($path) {
 		$path = $this->normalizePath($path);
 
@@ -340,7 +358,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$results = $this->getConnection()->getPaginator('ListObjects', [
 				'Bucket' => $this->bucket,
 				'Delimiter' => '/',
-				'Prefix' => $path,
+				'Prefix' => $this->prefix + $path,
 			]);
 
 			foreach ($results as $result) {
