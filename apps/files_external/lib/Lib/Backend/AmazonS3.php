@@ -40,6 +40,8 @@ class AmazonS3 extends Backend {
 			->setText($l->t('Amazon S3'))
 			->addParameters([
 				new DefinitionParameter('bucket', $l->t('Bucket')),
+				(new DefinitionParameter('prefix', $l->t('Prefix')))
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('hostname', $l->t('Hostname')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('port', $l->t('Port')))
